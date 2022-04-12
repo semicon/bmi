@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- 1/3 Include the library gauge meter-->
+    <script src="https://www.rgraph.net/libraries/RGraph.common.core.js"></script>
+    <script src="https://www.rgraph.net/libraries/RGraph.meter.js"></script>
+    <!-- <script src="https://www.rgraph.net/libraries/RGraph.gauge.js"></script> -->
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Audiowide&family=Grape+Nuts&family=K2D:wght@300&display=swap');
+        *, *::before, *::after{
+            margin: 0;
+            padding: 0;
+            text-decoration: none;
+            font-family: 'K2D', cursive;
+            box-sizing: border-box;
+            }
+        #root, #__next {
+            isolation: isolate;
+            }
+        html, body {
+            min-height: 100%;
+            }
+        body{
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+            margin: auto;
+            background-image: linear-gradient(120deg,#f0b501,#8e44ad);
+            font-family: 'K2D', cursive;
+        }
+        div.row{
+            margin: 1px;
+            font-family: 'K2D';
+            font-size: x-large;
+            }
+        input#body_weight, input#body_height{
+            font-family: 'K2D';
+            font-size: larger;
+            }
+        span#cc {
+            background-color:black;
+            color: rgb(246, 246, 248);
+            text-align:center;
+            font-family: 'Audiowide', cursive;
+        }
+        div#meter {
+            margin: 0 auto;
+            width: 300px;
+            height: 300px;
+            background-color: black;
+            color: rgb(79, 124, 247);
+            border-radius: 15px; 
+            box-shadow:3px 3px 3px gray; 
+            _float: right;
+        }
+        .block{
+            background: #f1f1f1;
+            border-radius: 15px; 
+            width: 360px;
+            margin: 0 auto;
+            padding:10px;
+            top: 50%;
+        }
+    </style>
+</head>
+<body onload="zxcv();">
+    <div class="container-lg block mt-4">
+
+    <!-- 2/3 The canvas tag gauge meter(this is where the chart shows up) -->
+    <div style="text-align:center;">
+        <div class="mt-3" id="meter">
+            <canvas id="cvs" width="300" height="230">[No canvas support]</canvas>
+            <span id="cc" style="font-size:2rem;">18.5</span>
+        </div>
+    </div>
+
+    <!-- form BMI -->
+    <div class="row">
+        <div  id="msg" class="col-12 mt-2 text-center alert-warning"  style="padding-top: 15px; padding-bottom: 15px; display: none;">
+        </div>
+        <div class="col-12 mt-2 text-center">
+            ส่วนสูง (Height)
+        </div>
+        <div class="col-7 col-auto">
+            <input class="form-control text-end" type="text" name="body_height" id="body_height"/>
+        </div>
+        <div class="col-5">
+            ซม. (cm.)
+        </div>
+        <div class="col-12 mt-3 text-center">
+            น้ำหนัก (Weight)
+        </div>
+        <div class="col-7 col-auto">
+            <input class="form-control text-end" type="text" name="body_weight" id="body_weight"/>
+        </div>
+        <div class="col-5">
+            กก. (kg.)
+        </div>
+        <div class="col-12 mt-3 mb-3 text-center">
+            <button class="btn btn-success " onclick="calbmi()">คำนวณ BMI</button> <button class="btn btn-warning" onclick="clearx();">ล้างข้อมูล</button>
+        </div>
+    </div>
+    </div>
+
+<script id="rgraph-demo-source-code">
+    var BMI = 0
+    var meter ="";
+    document.getElementById('cc').innerHTML=BMI;
+    document.getElementById("msg").innerHTML= "";
+
+    function zxcv(){
+        document.getElementById("cvs").innerHTML= "";
+    /** 3/3 This is the JavaScript code the creates the  gauge meter */
+        defaultColors = [
+            [0,5,'#ff0'],
+            [5,10,'#ff0'],
+            [10,15,'#df0'],
+            [15,18.5,'#af3'],
+            [18.5,25,'#0c1'],
+            [25,30,'#fa0'],
+            [30,35,'#f80'],
+            [35,40,'#f50'],
+            [40,45,'#f30'],
+            [45,50,'#f20'],
+        ];
+
+        // Create the Meter chart - it must be assigned to a variable in
+        // this case so that that variable can be used later.
+        meter = new RGraph.Meter({
+            id: 'cvs',
+            min: 0,
+            max: 50,
+            value: BMI,
+            options: {
+
+                marginLeft: 15,
+                marginRight: 15,
+                marginTop: 15,
+                marginBottom: 15,
+
+                // There's various configuration options here so that the Meter looks
+                // quite different to the default.
+                backgroundColor: 'black',
+                colorsRanges: defaultColors,
+                anglesStart: RGraph.PI -0.5,
+                anglesEnd: RGraph.TWOPI + 0.5,
+                centery: 150,
+                textSize: 14,
+                textColor: 'white',
+                textValign: 'center',
+                segmentsRadiusStart: 95,
+                border: 0,
+                tickmarksSmallCount: 0,
+                tickmarksLargeCount: 0,
+                needleRadius: 70,
+                needleColor: '#ddd',
+                needleHeadWidth: 0.1,
+                needleHeadLength: 20,
+                centerpinStroke: 'black',
+                centerpinFill: '#ddd'
+            }
+        }).draw();
+    }
+    /** BMI */
+
+    function calbmi()
+    {
+    meter = new RGraph.Meter({
+        id: 'cvs',
+        options: {
+            backgroundColor: 'black',
+            needleColor: 'black',
+            centerpinFill: 'black'
+        }
+    }).draw();
+
+    var body_height=document.getElementById('body_height').value;
+    var body_weight= document.getElementById('body_weight').value;
+
+      if(body_height && body_weight>10)
+      {
+        BMI = body_weight/((body_height/100)*(body_height/100));
+        document.getElementById('cc').innerHTML=BMI.toFixed(2);
+        document.getElementById('msg').style.display="block";
+        meter.value=BMI;
+        if(BMI.toFixed(2)<=18.5)
+        {
+            document.getElementById("msg").innerHTML= "คุณอยู่ในเกณฑ์ ผอมเกินไป";
+        }
+        else if(BMI.toFixed(2)>18.5 && BMI.toFixed(2)<=25)
+        {
+            document.getElementById("msg").innerHTML= "คุณอยู่ในเกณฑ์ น้ำหนักปกติ";
+        }
+        else if(BMI.toFixed(2)>25 && BMI.toFixed(2)<=30)
+        {
+        document.getElementById("msg").innerHTML= "คุณอยู่ในเกณฑ์ เริ่มอ้วน";
+        }
+        else if(BMI.toFixed(2)>30 && BMI.toFixed(2)<=35)
+        {
+        document.getElementById("msg").innerHTML= "คุณอยู่ในเกณฑ์ อ้วน";
+        }
+        else if(BMI.toFixed(2)>35)
+        {
+        document.getElementById("msg").innerHTML= "คุณอยู่ในเกณฑ์ อ้วนมากผิดปกติ";
+        }
+      }else{
+        document.getElementById("msg").innerHTML= "ข้อมูลไม่ถูกต้อง";
+      }
+       zxcv();
+    }
+
+    function clearx()
+    {
+        meter = new RGraph.Meter({
+        id: 'cvs',
+        options: {
+            backgroundColor: 'black',
+            needleColor: 'black',
+            centerpinFill: 'black'
+        }
+    }).draw();
+
+        BMI = 0;
+        document.getElementById('cc').innerHTML=BMI;       
+        document.getElementById("body_weight").value= "";
+        document.getElementById("body_height").value= "";
+        document.getElementById("msg").innerHTML= "";
+        document.getElementById('msg').style.display="none";
+        zxcv();
+    }
+
+</script>
+
+</body>
+</html>
