@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -105,11 +106,10 @@
 
 <script id="rgraph-demo-source-code">
     var BMI = 0
-    var meter ="";
     document.getElementById('cc').innerHTML=BMI;
     document.getElementById("msg").innerHTML= "";
 
-    function zxcv(){
+
         document.getElementById("cvs").innerHTML= "";
     /** 3/3 This is the JavaScript code the creates the  gauge meter */
         defaultColors = [
@@ -161,19 +161,11 @@
                 centerpinFill: '#ddd'
             }
         }).draw();
-    }
+
     /** BMI */
 
     function calbmi()
     {
-    meter = new RGraph.Meter({
-        id: 'cvs',
-        options: {
-            backgroundColor: 'black',
-            needleColor: 'black',
-            centerpinFill: 'black'
-        }
-    }).draw();
 
     var body_height=document.getElementById('body_height').value;
     var body_weight= document.getElementById('body_weight').value;
@@ -207,30 +199,25 @@
       }else{
         document.getElementById("msg").innerHTML= "ข้อมูลไม่ถูกต้อง";
       }
-       zxcv();
+      
+        meter.value = BMI
+        meter.grow();
     }
 
     function clearx()
     {
-        meter = new RGraph.Meter({
-        id: 'cvs',
-        options: {
-            backgroundColor: 'black',
-            needleColor: 'black',
-            centerpinFill: 'black'
-        }
-    }).draw();
-
         BMI = 0;
         document.getElementById('cc').innerHTML=BMI;       
         document.getElementById("body_weight").value= "";
         document.getElementById("body_height").value= "";
         document.getElementById("msg").innerHTML= "";
         document.getElementById('msg').style.display="none";
-        zxcv();
+        meter.value = BMI
+        meter.grow();
     }
 
 </script>
 
 </body>
 </html>
+
