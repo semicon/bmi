@@ -165,7 +165,7 @@
 
     function calbmi()
     {
-
+    document.getElementById('msg').style.display="block";
     var body_height=document.getElementById('body_height').value;
     var body_weight= document.getElementById('body_weight').value;
 
@@ -173,8 +173,7 @@
       {
         BMI = body_weight/((body_height/100)*(body_height/100));
         document.getElementById('cc').innerHTML=BMI.toFixed(2);
-        document.getElementById('msg').style.display="block";
-        meter.value=BMI;
+          
         if(BMI.toFixed(2)<=18.5)
         {
             document.getElementById("msg").innerHTML= "คุณอยู่ในเกณฑ์ ผอมเกินไป";
