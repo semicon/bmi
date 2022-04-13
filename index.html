@@ -108,13 +108,11 @@
     var BMI = 0
     document.getElementById('cc').innerHTML=BMI;
     document.getElementById("msg").innerHTML= "";
-
-
-        document.getElementById("cvs").innerHTML= "";
+    document.getElementById("cvs").innerHTML= "";
     /** 3/3 This is the JavaScript code the creates the  gauge meter */
         defaultColors = [
             [0,5,'#ff0'],
-            [5,10,'#ff0'],
+            [5,10,'#ff0']
             [10,15,'#df0'],
             [15,18.5,'#af3'],
             [18.5,25,'#0c1'],
@@ -186,18 +184,18 @@
         }
         else if(BMI.toFixed(2)>25 && BMI.toFixed(2)<=30)
         {
-        document.getElementById("msg").innerHTML= "คุณอยู่ในเกณฑ์ เริ่มอ้วน";
+            document.getElementById("msg").innerHTML= "คุณอยู่ในเกณฑ์ เริ่มอ้วน";
         }
         else if(BMI.toFixed(2)>30 && BMI.toFixed(2)<=35)
         {
-        document.getElementById("msg").innerHTML= "คุณอยู่ในเกณฑ์ อ้วน";
+            document.getElementById("msg").innerHTML= "คุณอยู่ในเกณฑ์ อ้วน";
         }
         else if(BMI.toFixed(2)>35)
         {
-        document.getElementById("msg").innerHTML= "คุณอยู่ในเกณฑ์ อ้วนมากผิดปกติ";
+            document.getElementById("msg").innerHTML= "คุณอยู่ในเกณฑ์ อ้วนมากผิดปกติ";
         }
       }else{
-        document.getElementById("msg").innerHTML= "ข้อมูลไม่ถูกต้อง";
+            document.getElementById("msg").innerHTML= "ข้อมูลไม่ถูกต้อง";
       }
       
         meter.value = BMI
