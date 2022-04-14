@@ -39,20 +39,20 @@
             font-size: larger;
             }
         span#cc {
-            background-color:black;
             color: rgb(246, 246, 248);
             text-align:center;
             font-family: 'Audiowide', cursive;
         }
         div#meter {
             margin: 0 auto;
-            width: 300px;
+            padding-top: 5px;
             height: 300px;
+        }
+        .msg{
+            padding-top: 15px;
+            padding-bottom: 15px;
             background-color: black;
-            color: rgb(79, 124, 247);
-            border-radius: 15px; 
-            box-shadow:3px 3px 3px gray; 
-            _float: right;
+            color: #0d0;
         }
         .block{
             background: #f1f1f1;
@@ -62,22 +62,55 @@
             padding:10px;
             top: 50%;
         }
+        .rainbow {
+            position: relative;
+            z-index: 0;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        .rainbow::before {
+            content: "";
+            position: absolute;
+            z-index: -2;
+            left: -50%;
+            top: -50%;
+            width: 200%;
+            height: 200%;
+            background-color: #399953;
+            background-repeat: no-repeat;
+            background-size: 50% 50%, 50% 50%;
+            background-position: 0 0, 100% 0, 100% 100%, 0 100%;
+            background-image: linear-gradient(#2196f3, #2196f3), linear-gradient(#f18867, #f18867), linear-gradient(#e85f99, #e85f99), linear-gradient(#ffc400, #ffc400);
+            -webkit-animation: rotate 4s linear infinite;
+            animation: rotate 4s linear infinite;
+        }
+        .rainbow::after {
+            content: "";
+            position: absolute;
+            z-index: -1;
+            left: 6px;
+            top: 6px;
+            width: calc(100% - 12px);
+            height: calc(100% - 12px);
+            background: rgb(8, 0, 0);
+            border-radius: 2px;
+        }
     </style>
 </head>
 <body>
     <div class="container-lg block mt-4">
 
     <!-- 2/3 The canvas tag gauge meter(this is where the chart shows up) -->
-    <div style="text-align:center;">
-        <div class="mt-3" id="meter">
+    <div class="rainbow" style="text-align:center;">
+        <div  id="meter">
             <canvas id="cvs" width="300" height="230">[No canvas support]</canvas>
-            <span id="cc" style="font-size:2rem;">18.5</span>
+            <span class="my-auto" id="cc" style="font-size:2rem;">18.5</span>
         </div>
     </div>
 
     <!-- form BMI -->
     <div class="row">
-        <div  id="msg" class="col-12 mt-2 text-center alert-warning"  style="padding-top: 15px; padding-bottom: 15px; display: none;">
+        <div  id="msg" class="col-12 mt-2 text-center msg rainbow">
         </div>
         <div class="col-12 mt-2 text-center">
             ส่วนสูง (Height)
@@ -104,12 +137,11 @@
     </div>
 
 <script id="rgraph-demo-source-code">
+
     var BMI = 0
-    document.getElementById('cc').innerHTML=BMI;
-    document.getElementById("msg").innerHTML= "";
+    document.getElementById('cc').innerHTML=BMI.toFixed(2);
+    document.getElementById("msg").innerHTML= "โปรแกรมคำนวณดัชนีมวลกาย";
 
-
-        document.getElementById("cvs").innerHTML= "";
     /** 3/3 This is the JavaScript code the creates the  gauge meter */
         defaultColors = [
             [0,5,'#ff0'],
@@ -165,7 +197,7 @@
 
     function calbmi()
     {
-    document.getElementById('msg').style.display="block";
+
     var body_height=document.getElementById('body_height').value;
     var body_weight= document.getElementById('body_weight').value;
 
@@ -173,7 +205,7 @@
       {
         BMI = body_weight/((body_height/100)*(body_height/100));
         document.getElementById('cc').innerHTML=BMI.toFixed(2);
-          
+
         if(BMI.toFixed(2)<=18.5)
         {
             document.getElementById("msg").innerHTML= "คุณอยู่ในเกณฑ์ ผอมเกินไป";
@@ -184,15 +216,15 @@
         }
         else if(BMI.toFixed(2)>25 && BMI.toFixed(2)<=30)
         {
-        document.getElementById("msg").innerHTML= "คุณอยู่ในเกณฑ์ เริ่มอ้วน";
+            document.getElementById("msg").innerHTML= "คุณอยู่ในเกณฑ์ เริ่มอ้วน";
         }
         else if(BMI.toFixed(2)>30 && BMI.toFixed(2)<=35)
         {
-        document.getElementById("msg").innerHTML= "คุณอยู่ในเกณฑ์ อ้วน";
+            document.getElementById("msg").innerHTML= "คุณอยู่ในเกณฑ์ อ้วน";
         }
         else if(BMI.toFixed(2)>35)
         {
-        document.getElementById("msg").innerHTML= "คุณอยู่ในเกณฑ์ อ้วนมากผิดปกติ";
+            document.getElementById("msg").innerHTML= "คุณอยู่ในเกณฑ์ อ้วนมากผิดปกติ";
         }
       }else{
         document.getElementById("msg").innerHTML= "ข้อมูลไม่ถูกต้อง";
@@ -205,11 +237,10 @@
     function clearx()
     {
         BMI = 0;
-        document.getElementById('cc').innerHTML=BMI;       
+        document.getElementById('cc').innerHTML=BMI.toFixed(2); 
         document.getElementById("body_weight").value= "";
         document.getElementById("body_height").value= "";
-        document.getElementById("msg").innerHTML= "";
-        document.getElementById('msg').style.display="none";
+        document.getElementById("msg").innerHTML= "โปรแกรมคำนวณดัชนีมวลกาย";
         meter.value = BMI
         meter.grow();
     }
@@ -218,4 +249,3 @@
 
 </body>
 </html>
-
